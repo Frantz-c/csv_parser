@@ -140,7 +140,6 @@ void	parse(data_t **data, char *s, const char del, const uint32_t *fields, uint3
 			}
 			continue;
 		}
-		printf("else\n");
 
 		new->val[new_index++] = s;
 		while (*s && *s != del && *s != '\n') s++;
@@ -401,6 +400,11 @@ int		main(int argc, char **argv)
 	fields = get_fields(order, nfields);
 	reorganize_index(order, nfields);
 	content = get_file_content(filename);
+	if (!content)
+	{
+		fprintf(stderr, "ERROR: can't open/read \"%s\"\n", filename);
+		return (1);
+	}
 	parse(&data, content, del, fields, skip, nfields);
 	print_req(data, order, format, nfields);
 
